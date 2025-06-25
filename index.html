@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cuidado, isso é um site!!!</title>
+<style>
+    body {
+        background-color: red;
+    }
+    @media (max-width: 600px) {
+        #content {
+            font-size: 18px;
+        }
+        #menu {
+            display: none;
+        }
+    }
+    @media (min-width: 600px) {
+        #menu {
+            display: block;
+        }
+    }
+</style>
+<script>
+    function validateForm() {
+        let email = document.getElementById('email').value;
+        let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        if (!email.match(emailPattern)) {
+            alert("bota um email valido fiao, ta achando q é varsia?");
+            return false;
+        }
+        return true;
+    }
+
+    function loadContent() {
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                document.getElementById('content').innerHTML = xhr.responseText;
+            }
+        };
+        xhr.open('GET', 'content.txt', true); 
+        xhr.send();
+    }
+</script>
+</head>
+<body>
+
+<div id="menu">
+    <button onclick="loadContent()">Carregando...</button>
+</div>
+
+<div id="content">
+    <p>Clica no botão</p>
+</div>
+
+<form onsubmit="return validateForm()">
+    <label for="email">Email:</label><br>
+    <input type="text" id="email" name="email"><br>
+    <input type="submit" value="Enviar">
+</form>
+
+</body>
+</html>
